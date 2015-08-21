@@ -1,0 +1,17 @@
+{
+  "name": "dodge",
+  "version": "1.0.0",
+  "authors": [
+    "Shuyang Chen <sc1085@gmail.com>"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "phaser": "~2.4.2"
+  }
+}

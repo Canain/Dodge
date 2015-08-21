@@ -15,12 +15,12 @@ var paths = {
 	browserify: 'out/ts/main.js',
 	js:
 		'{' +
-			'bower_components/pixi.js/bin/pixi.min.js,' + 
+			'bower_components/phaser/build/phaser.min.js,' + 
 			'out/browserify/bundle.js' +
 		'}',
 	debug:
 		'{' +
-			'bower_components/pixi.js/bin/pixi.js,' + 
+			'bower_components/phaser/build/phaser.js,' + 
 			'out/browserify/bundle.js' +
 		'}',
 	css:
@@ -125,11 +125,11 @@ gulp.task('browserify', function (done) {
 });
 
 gulp.task('publish-copy-dist', function () {
-	return gulp.src('out/dist/**/*').pipe(rename({dirname: ''}).pipe(gulp.dest('out/pub/dist')));
+	return gulp.src('out/dist/**/*').pipe(gulp.dest('out/pub/dist'));
 });
 
 gulp.task('publish-copy-root', function () {
-	return gulp.src('src/root/**/*').pipe(rename({dirname: ''}).pipe(gulp.dest('out/pub')));
+	return gulp.src('src/root/**/*').pipe(gulp.dest('out/pub'));
 });
 
 gulp.task('publish', ['publish-copy-root', 'publish-copy-dist']);

@@ -3,7 +3,10 @@ class Dodge {
 	game: Phaser.Game;
 	
 	sprite: Phaser.Sprite;
-	sprite2: Phaser.Sprite;
+	
+	cursors;
+	
+	text;
 	
 	constructor() {
 		this.game = new Phaser.Game('100%', '100%', Phaser.AUTO, document.body, {
@@ -15,55 +18,55 @@ class Dodge {
 	}
 	
 	preload() {
-		this.game.load.spritesheet('gameboy', 'assets/sprites/gameboy_seize_color_40x60.png', 40, 60);
+		this.game.load.image('block-red', 'assets/blocks/red.png');
 	}
 	
 	create() {
-		this.game.physics.startSystem(Phaser.Physics.ARCADE);
+		this.game.add.image(0, 0, 'block-red');
 	
-		this.game.stage.backgroundColor = '#124184';
+		this.game.physics.startSystem(Phaser.Physics.P2JS);
 	
-		this.sprite = this.game.add.sprite(300, 0, 'gameboy', 2);
-		this.sprite2 = this.game.add.sprite(300, 400, 'gameboy', 3);
+		this.sprite = this.game.add.sprite(200, 200, 'block-red');
 	
-		this.game.physics.arcade.enable([this.sprite, this.sprite2]);
+		this.game.physics.p2.enable(this.sprite);
 	
-		this.game.physics.arcade.gravity.y = 200;
+		(<Phaser.Physics.P2.Body>this.sprite.body).setZeroDamping();
+		(<Phaser.Physics.P2.Body>this.sprite.body).fixedRotation = true;
 	
-		this.sprite.body.bounce.y = 0.95;
-		this.sprite.body.collideWorldBounds = true;
+		this.text = this.game.add.text(20, 20, 'move with arrow keys', { fill: '#ffffff' });
 	
-		this.sprite2.body.allowGravity = false;
-		this.sprite2.body.immovable = true;
-	
-		this.game.input.onDown.add(() => {
-			//	Here we simply disable the body entirely
-			//	This stops all motion and collision checks against it
-			//	without actually destroying the body object itself.
-		
-			if (this.sprite2.body.enable)
-			{
-				this.sprite2.body.enable = false;
-			}
-			else
-			{
-				this.sprite2.body.enable = true;
-			}
-		}, this);
+		this.cursors = this.game.input.keyboard.createCursorKeys();
 	}
 	
 	update() {
-		this.game.physics.arcade.collide(this.sprite, this.sprite2);
+		(<Phaser.Physics.P2.Body>this.sprite.body).setZeroVelocity();
+	
+		if (this.cursors.left.isDown)
+		{
+			(<Phaser.Physics.P2.Body>this.sprite.body).moveLeft(400);
+		}
+		else if (this.cursors.right.isDown)
+		{
+			(<Phaser.Physics.P2.Body>this.sprite.body).moveRight(400);
+		}
+	
+		if (this.cursors.up.isDown)
+		{
+			(<Phaser.Physics.P2.Body>this.sprite.body).moveUp(400);
+		}
+		else if (this.cursors.down.isDown)
+		{
+			(<Phaser.Physics.P2.Body>this.sprite.body).moveDown(400);
+		}
 	}
 	
 	render() {
-		this.game.debug.text('Click to disable body1', 32, 32);
+		// this.game.debug.text('Click to disable body1', 32, 32);
 	
-		if (this.sprite2.body.enable)
-		{
-			this.game.debug.body(this.sprite2);
-		}
+		// if (this.sprite2.body.enable)
+		// {
+		// 	this.game.debug.body(this.sprite2);
+		// }
 	}
 }
-
 export = Dodge;

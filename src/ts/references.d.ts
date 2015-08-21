@@ -12,8 +12,18 @@ declare module Phaser {
 		
 	}
 	
-	export class GameObjectFactory {
+	export class Video {
 		
+	}
+	
+	export class Group {
+		
+	}
+	
+	export class GameObjectFactory {
+		image(x?: number, y?: number, key?: string | Phaser.RenderTexture | Phaser.BitmapData | Phaser.Video | PIXI.Texture, frame?: string | number, group?: Group);
+		sprite(x?: number, y?: number, key?: string | Phaser.RenderTexture | Phaser.BitmapData | Phaser.Video | PIXI.Texture, frame?: string | number, group?: Group);
+		text(x?: number, y?: number, text?: string, style?, group?: Group);
 	}
 	
 	export class Cache {
@@ -42,12 +52,18 @@ declare module Phaser {
 		
 	}
 	
+	export class Keyboard {
+		createCursorKeys(): { up; down; left; right; };
+	}
+	
 	export class Input {
-		
+		keyboard: Keyboard;
 	}
 	
 	export class Loader {
+		spritesheet(key: string, url: string, frameWidth: number, frameHeight: number, frameMax?: number, margin?: number, spacing?: number);
 		
+		image(key: string, url?: string, overwrite?: boolean);
 	}
 	
 	export class GameObjectCreator {
@@ -66,8 +82,53 @@ declare module Phaser {
 		
 	}
 	
-	export class Physics {
+	export module Physics {
+		export class Arcade {
+			
+		}
 		
+		export module Arcade {
+			
+			export class Body {
+				
+			}
+		}
+		
+		export module P2 {
+			
+			export class Body {
+				fixedRotation: boolean;
+				
+				setZeroDamping();
+				setZeroVelocity();
+				moveLeft(speed: number);
+				moveRight(speed: number);
+				moveUp(speed: number);
+				moveDown(speed: number);
+			}
+		}
+		
+		export module Ninja {
+			
+			export class Body {
+				
+			}
+		}
+		
+		export class P2 {
+			
+			enable(object: any | any[] | Group, debug?: boolean, children?: boolean);
+		}
+	}
+	
+	export class Physics {
+		static ARCADE: number;
+		static P2JS: number;
+		
+		arcade: Physics.Arcade;
+		p2: Physics.P2;
+		
+		startSystem(system: number);
 	}
 	
 	export class PluginManager {
@@ -168,7 +229,6 @@ declare module Phaser {
 		enableStep();
 		step();
 		
-		
 		private boot();
 		private focusGain(event);
 		private focusGain(event);
@@ -184,6 +244,10 @@ declare module Phaser {
 	}
 	
 	export class Sprite {
+		body: Physics.Arcade.Body | Physics.P2.Body | Physics.Ninja.Body;
+		
 		constructor(game: Game, x: number, y: number, key: string | RenderTexture | BitmapData | PIXI.Texture, frame: string | number);
+		
+		
 	}
 }
