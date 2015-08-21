@@ -10,7 +10,10 @@ class Dodge {
 	
 	scale: number;
 	
-	// text;
+	collision: {
+		player: Phaser.Physics.P2.CollisionGroup;
+		block: Phaser.Physics.P2.CollisionGroup;
+	}
 	
 	constructor() {
 		this.game = new Phaser.Game('100%', '100%', Phaser.AUTO, $('body')[0], {
@@ -23,49 +26,48 @@ class Dodge {
 		this.game.forceSingleUpdate = true;
 		
 		this.block = 16;
-		
-		// $(window).resize(() => {
-		// 	var window: JQuery = $(window);
-		// 	var width = window.width();
-		// 	var height = window.height();
-			
-		// 	this.game.width = width;
-		// 	this.game.height = height;
-		// 	this.game.stage.bounds.width = width;
-		// 	this.game.stage.bounds.height = height;
-			
-		// 	if (this.game.renderType === Phaser.WEBGL)
-		// 	{
-		// 		this.game.renderer.resize(width, height);
-		// 	}
-		// });
+	}
+	
+	createBlock(color: string) {
+		var block = this.game.add.sprite(this.game.world.randomX, 0, 'block-' + color);
+		block.smoothed = false;
+		block.scale.setTo(this.scale * this.block);
+		this.game.physics.p2.enable(block);
+		var body = <Phaser.Physics.P2.Body>block.body;
+		body.setZeroDamping();
+		body.fixedRotation = true;
+		body.velocity.y = -100;
 	}
 	
 	preload() {
 		this.game.load.image('player', 'assets/player.png');
+		var colors = ['red', 'blue', 'green', 'yellow', 'purple'];
+		colors.forEach((color: string) => {
+			this.game.load.image('block-' + color, 'assets/blocks/' + color + '.png');
+		});
 	}
 	
 	create() {
 		this.scale = Math.min(this.game.width, this.game.height) / 150;
 		
 		this.game.physics.startSystem(Phaser.Physics.P2JS);
+    	this.game.physics.p2.setImpactEvents(true);
 	
 		this.player = this.game.add.sprite(this.game.width / 2, this.game.height / 4 * 3, 'player');
 		this.player.smoothed = false;
 		this.player.scale.setTo(this.scale);
 	
 		this.game.physics.p2.enable(this.player);
-	
-		(<Phaser.Physics.P2.Body>this.player.body).damping = 0;
-		(<Phaser.Physics.P2.Body>this.player.body).fixedRotation = true;
-	
-		// this.text = this.game.add.text(20, 20, 'move with arrow keys', { fill: '#ffffff' });
+		
+		var body = <Phaser.Physics.P2.Body>this.player.body;
+		body.setZeroDamping();
+		body.fixedRotation = true;
 	
 		this.cursors = this.game.input.keyboard.createCursorKeys();
 	}
 	
 	update() {
-		var body = (<Phaser.Physics.P2.Body>this.player.body);
+		var body = <Phaser.Physics.P2.Body>this.player.body;
 		
 		var force = 2000;
 		

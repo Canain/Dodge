@@ -135,6 +135,10 @@ declare module Phaser {
 				x: number;
 				y: number;
 			}
+			
+			export class CollisionGroup {
+				
+			}
 		}
 		
 		export module Ninja {
@@ -145,8 +149,9 @@ declare module Phaser {
 		}
 		
 		export class P2 {
-			
+			setImpactEvents(state: boolean);
 			enable(object: any | any[] | Group, debug?: boolean, children?: boolean);
+			createCollisionGroup(object?: Group | Sprite);
 		}
 	}
 	
@@ -196,6 +201,11 @@ declare module Phaser {
 		
 	}
 	
+	export class World {
+		randomX: number;
+		randomY: number;
+	}
+	
 	export class Game {
 		add: GameObjectFactory;
 		antialias: boolean;
@@ -234,6 +244,7 @@ declare module Phaser {
 		time: Time;
 		transparent: boolean;
 		tweens: TweenManager;
+		world: World;
 		
 		private currentUpdateID: number;
 		private raf: RequestAnimationFrame;
