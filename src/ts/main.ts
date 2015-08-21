@@ -2,4 +2,4 @@
 
 import Dodge = require('./game');
 
-new Dodge();
+window['game'] = new Dodge();

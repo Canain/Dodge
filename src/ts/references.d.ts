@@ -275,6 +275,7 @@ declare module Phaser {
 	export class Sprite {
 		body: Physics.Arcade.Body | Physics.P2.Body | Physics.Ninja.Body;
 		scale: Point;
+		smoothed: boolean;
 		
 		constructor(game: Game, x: number, y: number, key: string | RenderTexture | BitmapData | PIXI.Texture, frame: string | number);
 		

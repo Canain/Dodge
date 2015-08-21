@@ -2,11 +2,15 @@ class Dodge {
 	
 	game: Phaser.Game;
 	
-	sprite: Phaser.Sprite;
+	player: Phaser.Sprite;
 	
 	cursors;
 	
-	text;
+	block: number;
+	
+	scale: number;
+	
+	// text;
 	
 	constructor() {
 		this.game = new Phaser.Game('100%', '100%', Phaser.AUTO, $('body')[0], {
@@ -15,6 +19,10 @@ class Dodge {
 			update: this.update.bind(this),
 			render: this.render.bind(this)
 		}, false, true);
+		
+		this.game.forceSingleUpdate = true;
+		
+		this.block = 16;
 		
 		// $(window).resize(() => {
 		// 	var window: JQuery = $(window);
@@ -34,21 +42,22 @@ class Dodge {
 	}
 	
 	preload() {
-		this.game.load.image('block-red', 'assets/blocks/red.png');
+		this.game.load.image('player', 'assets/player.png');
 	}
 	
 	create() {
-		this.game.add.image(0, 0, 'block-red');
-	
+		this.scale = Math.min(this.game.width, this.game.height) / 150;
+		
 		this.game.physics.startSystem(Phaser.Physics.P2JS);
 	
-		this.sprite = this.game.add.sprite(200, 200, 'block-red');
-		this.sprite.scale.setTo(100);
+		this.player = this.game.add.sprite(this.game.width / 2, this.game.height / 4 * 3, 'player');
+		this.player.smoothed = false;
+		this.player.scale.setTo(this.scale);
 	
-		this.game.physics.p2.enable(this.sprite);
+		this.game.physics.p2.enable(this.player);
 	
-		(<Phaser.Physics.P2.Body>this.sprite.body).damping = 0;
-		(<Phaser.Physics.P2.Body>this.sprite.body).fixedRotation = true;
+		(<Phaser.Physics.P2.Body>this.player.body).damping = 0;
+		(<Phaser.Physics.P2.Body>this.player.body).fixedRotation = true;
 	
 		// this.text = this.game.add.text(20, 20, 'move with arrow keys', { fill: '#ffffff' });
 	
@@ -56,7 +65,7 @@ class Dodge {
 	}
 	
 	update() {
-		var body = (<Phaser.Physics.P2.Body>this.sprite.body);
+		var body = (<Phaser.Physics.P2.Body>this.player.body);
 		
 		var force = 2000;
 		
