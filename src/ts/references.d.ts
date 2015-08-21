@@ -20,10 +20,29 @@ declare module Phaser {
 		
 	}
 	
+	export class Image {
+		
+	}
+	
+	export class Text {
+		
+	}
+	
+	export class Point {
+		x: number;
+		y: number;
+		
+		type: number;
+		
+		constructor(x?: number, y?: number);
+		
+		setTo(x: number, y?: number);
+	}
+	
 	export class GameObjectFactory {
-		image(x?: number, y?: number, key?: string | Phaser.RenderTexture | Phaser.BitmapData | Phaser.Video | PIXI.Texture, frame?: string | number, group?: Group);
-		sprite(x?: number, y?: number, key?: string | Phaser.RenderTexture | Phaser.BitmapData | Phaser.Video | PIXI.Texture, frame?: string | number, group?: Group);
-		text(x?: number, y?: number, text?: string, style?, group?: Group);
+		image(x?: number, y?: number, key?: string | Phaser.RenderTexture | Phaser.BitmapData | Phaser.Video | PIXI.Texture, frame?: string | number, group?: Group): Image;
+		sprite(x?: number, y?: number, key?: string | Phaser.RenderTexture | Phaser.BitmapData | Phaser.Video | PIXI.Texture, frame?: string | number, group?: Group): Sprite;
+		text(x?: number, y?: number, text?: string, style?, group?: Group): Text;
 	}
 	
 	export class Cache {
@@ -98,6 +117,9 @@ declare module Phaser {
 			
 			export class Body {
 				fixedRotation: boolean;
+				force: InversePointProxy;
+				velocity: InversePointProxy;
+				damping: number;
 				
 				setZeroDamping();
 				setZeroVelocity();
@@ -105,6 +127,13 @@ declare module Phaser {
 				moveRight(speed: number);
 				moveUp(speed: number);
 				moveDown(speed: number);
+			}
+			
+			export class InversePointProxy {
+				mx: number;
+				my: number;
+				x: number;
+				y: number;
 			}
 		}
 		
@@ -245,6 +274,7 @@ declare module Phaser {
 	
 	export class Sprite {
 		body: Physics.Arcade.Body | Physics.P2.Body | Physics.Ninja.Body;
+		scale: Point;
 		
 		constructor(game: Game, x: number, y: number, key: string | RenderTexture | BitmapData | PIXI.Texture, frame: string | number);
 		

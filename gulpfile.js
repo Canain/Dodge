@@ -9,6 +9,8 @@ var runSequence = require('run-sequence');
 var childProcess = require('child_process');
 var spawn = childProcess.spawn;
 var exec = childProcess.exec;
+var serve = require('gulp-serve');
+var open = require('gulp-open');
 
 var paths = {
 	less: 'src/less/main.less',
@@ -16,11 +18,13 @@ var paths = {
 	js:
 		'{' +
 			'bower_components/phaser/build/phaser.min.js,' + 
+			'bower_components/jquery/dist/jquery.min.js,' +
 			'out/browserify/bundle.js' +
 		'}',
 	debug:
 		'{' +
 			'bower_components/phaser/build/phaser.js,' + 
+			'bower_components/jquery/dist/jquery.js,' +
 			'out/browserify/bundle.js' +
 		'}',
 	css:
@@ -166,8 +170,12 @@ gulp.task('test-debug', function (cb) {
 	runSequence('build-debug', 'run');
 });
 
-gulp.task('run', function (done) {
-	
+gulp.task('open', function () {
+	gulp.src('').pipe(open({uri: 'http://localhost:3000'}));
 });
+
+gulp.task('serve', serve('out/pub'));
+
+gulp.task('run', ['open']);
 
 gulp.task('default', ['run']);
