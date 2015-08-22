@@ -11,9 +11,9 @@ class Dodge {
 	scale: number;
 	
 	collision: {
-		player: Phaser.Physics.P2.CollisionGroup;
-		block: Phaser.Physics.P2.CollisionGroup;
-	}
+		player: Phaser.Physics.CollisionGroup;
+		block: Phaser.Physics.CollisionGroup;
+	};
 	
 	constructor() {
 		this.game = new Phaser.Game('100%', '100%', Phaser.AUTO, $('body')[0], {
@@ -37,6 +37,10 @@ class Dodge {
 		body.setZeroDamping();
 		body.fixedRotation = true;
 		body.velocity.y = -100;
+		body.setCollisionGroup(this.collision.block);
+		body.collides(this.collision.player, () => {
+			console.log('hit ' + color);
+		});
 	}
 	
 	preload() {
@@ -52,6 +56,13 @@ class Dodge {
 		
 		this.game.physics.startSystem(Phaser.Physics.P2JS);
     	this.game.physics.p2.setImpactEvents(true);
+		
+		this.collision = {
+			player: this.game.physics.p2.createCollisionGroup(),
+			block: this.game.physics.p2.createCollisionGroup()
+		};
+		
+		this.game.physics.p2.updateBoundsCollisionGroup();
 	
 		this.player = this.game.add.sprite(this.game.width / 2, this.game.height / 4 * 3, 'player');
 		this.player.smoothed = false;
@@ -62,6 +73,8 @@ class Dodge {
 		var body = <Phaser.Physics.P2.Body>this.player.body;
 		body.setZeroDamping();
 		body.fixedRotation = true;
+		body.setCollisionGroup(this.collision.player);
+		body.collides(this.collision.block);
 	
 		this.cursors = this.game.input.keyboard.createCursorKeys();
 	}

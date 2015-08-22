@@ -1,5 +1,6 @@
 /// <reference path="../../typings/tsd.d.ts" />
 
+
 declare module Phaser {
 	
 	export var AUTO: number;
@@ -17,7 +18,8 @@ declare module Phaser {
 	}
 	
 	export class Group {
-		
+		enableBody: boolean;
+		physicsBodyType: number;
 	}
 	
 	export class Image {
@@ -43,6 +45,7 @@ declare module Phaser {
 		image(x?: number, y?: number, key?: string | Phaser.RenderTexture | Phaser.BitmapData | Phaser.Video | PIXI.Texture, frame?: string | number, group?: Group): Image;
 		sprite(x?: number, y?: number, key?: string | Phaser.RenderTexture | Phaser.BitmapData | Phaser.Video | PIXI.Texture, frame?: string | number, group?: Group): Sprite;
 		text(x?: number, y?: number, text?: string, style?, group?: Group): Text;
+		group(parent?, name?: string, addToStage?: boolean, enableBody?: boolean, physicsBodyType?: number): Group;
 	}
 	
 	export class Cache {
@@ -106,6 +109,10 @@ declare module Phaser {
 			
 		}
 		
+		export class CollisionGroup {
+			
+		}
+		
 		export module Arcade {
 			
 			export class Body {
@@ -114,6 +121,10 @@ declare module Phaser {
 		}
 		
 		export module P2 {
+			
+			export class Shape {
+				
+			}
 			
 			export class Body {
 				fixedRotation: boolean;
@@ -127,6 +138,8 @@ declare module Phaser {
 				moveRight(speed: number);
 				moveUp(speed: number);
 				moveDown(speed: number);
+				setCollisionGroup(group: CollisionGroup, shape?: Shape);
+				collides(group: CollisionGroup | CollisionGroup[], callback?: () => void, callbackContext?, shape?: Shape);
 			}
 			
 			export class InversePointProxy {
@@ -134,10 +147,6 @@ declare module Phaser {
 				my: number;
 				x: number;
 				y: number;
-			}
-			
-			export class CollisionGroup {
-				
 			}
 		}
 		
@@ -151,7 +160,8 @@ declare module Phaser {
 		export class P2 {
 			setImpactEvents(state: boolean);
 			enable(object: any | any[] | Group, debug?: boolean, children?: boolean);
-			createCollisionGroup(object?: Group | Sprite);
+			createCollisionGroup(object?: Group | Sprite): CollisionGroup;
+			updateBoundsCollisionGroup(setCollisionGroup?: boolean);
 		}
 	}
 	
