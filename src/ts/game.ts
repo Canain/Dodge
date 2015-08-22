@@ -192,20 +192,27 @@ class Dodge {
 		
 		var friction = 5;
 		
-		if (this.cursors.left.isDown) {
-			body.velocity.x = -this.speed;
-		} else if (this.cursors.right.isDown) {
-			body.velocity.x = this.speed;
+		var pointer = this.game.input.mousePointer;
+		if (Modernizr.touch || pointer.isDown) {
+			var dir = this.player.position.clone().subtract(pointer.clientX, pointer.clientY);
+			dir.normalize();
+			body.velocity.x = -dir.x * this.speed;
+			body.velocity.y = -dir.y * this.speed;
 		} else {
-			body.velocity.x = 0;
-		}
-	
-		if (this.cursors.up.isDown) {
-			body.velocity.y = -this.speed;
-		} else if (this.cursors.down.isDown) {
-			body.velocity.y = this.speed;
-		} else {
-			body.velocity.y = 0;
+			body.setZeroVelocity();
+			
+			if (this.cursors.left.isDown) {
+				body.velocity.x -= this.speed;
+			}
+			if (this.cursors.right.isDown) {
+				body.velocity.x += this.speed;
+			}
+			if (this.cursors.up.isDown) {
+				body.velocity.y -= this.speed;
+			}
+			if (this.cursors.down.isDown) {
+				body.velocity.y += this.speed;
+			}
 		}
 		
 		if (Math.random() < 0.02) {
