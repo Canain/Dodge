@@ -192,8 +192,8 @@ class Dodge {
 		
 		var friction = 5;
 		
-		var pointer = this.game.input.mousePointer;
-		if (Modernizr.touch || pointer.isDown) {
+		var pointer = this.game.input.activePointer;
+		if (pointer.isDown) {
 			var dir = this.player.position.clone().subtract(pointer.clientX, pointer.clientY);
 			dir.normalize();
 			body.velocity.x = -dir.x * this.speed;
