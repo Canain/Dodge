@@ -23,7 +23,7 @@ class Dodge {
 		text: Phaser.Group;
 	};
 	
-	force: number;
+	speed: number;
 	invincible: boolean;
 	
 	power: number;
@@ -64,7 +64,7 @@ class Dodge {
 		body.collides(this.collision.player, () => {
 			if (color == 'yellow') {
 				this.power = this.game.time.now + 2000;
-				this.force = 2000;
+				this.speed = 600;
 				this.text.text = 'SPEED';
 				this.text.fill = 'yellow';
 				this.points += 100;
@@ -174,7 +174,7 @@ class Dodge {
 	
 	reset() {
 		this.power = -1;
-		this.force = 1000;
+		this.speed = 300;
 		this.invincible = false;
 		if (this.text) {
 			this.text.text = '';
@@ -193,19 +193,19 @@ class Dodge {
 		var friction = 5;
 		
 		if (this.cursors.left.isDown) {
-			body.force.x = -this.force;
+			body.velocity.x = -this.speed;
 		} else if (this.cursors.right.isDown) {
-			body.force.x = this.force;
+			body.velocity.x = this.speed;
 		} else {
-			body.force.x = -friction * body.velocity.x;
+			body.velocity.x = 0;
 		}
 	
 		if (this.cursors.up.isDown) {
-			body.force.y = -this.force;
+			body.velocity.y = -this.speed;
 		} else if (this.cursors.down.isDown) {
-			body.force.y = this.force;
+			body.velocity.y = this.speed;
 		} else {
-			body.force.y = -friction * body.velocity.y;
+			body.velocity.y = 0;
 		}
 		
 		if (Math.random() < 0.02) {
