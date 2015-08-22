@@ -5,9 +5,6 @@
   "path": "typings",
   "bundle": "typings/tsd.d.ts",
   "installed": {
-    "pixi.js/pixi.js.d.ts": {
-      "commit": "38fb591c6eba840e0b53d1110302b8e4fb04651c"
-    },
     "jquery/jquery.d.ts": {
       "commit": "8f081073e6cb416f901b272810d8b04d6e01c9e0"
     }
