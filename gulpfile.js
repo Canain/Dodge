@@ -19,14 +19,14 @@ var paths = {
 		'{' +
 			'bower_components/phaser/build/phaser.min.js,' + 
 			'bower_components/jquery/dist/jquery.min.js,' +
-			'bower_components/modernizr/modernizr.js,' +
+			// 'bower_components/modernizr/modernizr.js,' +
 			'out/browserify/bundle.js' +
 		'}',
 	debug:
 		'{' +
 			'bower_components/phaser/build/phaser.js,' + 
 			'bower_components/jquery/dist/jquery.js,' +
-			'bower_components/modernizr/modernizr.js,' +
+			// 'bower_components/modernizr/modernizr.js,' +
 			'out/browserify/bundle.js' +
 		'}',
 	css:
