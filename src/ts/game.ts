@@ -63,32 +63,35 @@ class Dodge {
 		body.setCollisionGroup(this.collision.block);
 		body.collides(this.collision.player, () => {
 			if (color == 'yellow') {
-				this.power = this.game.time.now + 2000;
+				this.power = this.power == -1 ? this.game.time.now + 2000 : this.power + 2000;
 				this.speed = 600;
 				this.text.text = 'SPEED';
 				this.text.fill = 'yellow';
-				this.points += 100;
+				this.points += 200;
 				this.updateScore();
 			} else if (color == 'purple') {
-				this.power = this.game.time.now + 2000;
+				this.power = this.power == -1 ? this.game.time.now + 2000 : this.power + 2000;
 				this.invincible = true;
 				this.text.text = 'INVINCIBLE';
 				this.text.fill = '#FF00FF';
-				this.points += 100;
+				this.points += 200;
 				this.updateScore();
 			} else if (color == 'blue') {
-				this.power = this.game.time.now + 2000;
+				this.power = this.power == -1 ? this.game.time.now + 2000 : this.power + 2000;
 				this.groups.block.forEach((child: Phaser.Sprite) => {
 					var body = <Phaser.Physics.P2.Body>child.body;
 					body.velocity.y = 100;
 				}, this);
 				this.text.text = 'SLOW DOWN';
 				this.text.fill = 'blue';
+				this.points += 200;
+				this.updateScore();
+			} else if (color == 'green') {
 				this.points += 100;
 				this.updateScore();
 			} else {
 				if (this.invincible) {
-					this.points += 100;
+					this.points += 200;
 					this.updateScore();
 				} else {
 					this.player.kill();
